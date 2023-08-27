@@ -1,6 +1,8 @@
 public class Task {
+    static final int parametersCount= 8;
     private int energyConsumption, timeConsumption, nowResult, prognosisResult;
     private String name;
+    private String [] outString;
 
     public double getConsumption(){
         return (double) (energyConsumption+timeConsumption)/2;
@@ -32,22 +34,35 @@ public class Task {
 
     public void setEnergyConsumption(int energyConsumption) {
         this.energyConsumption = energyConsumption;
+        outString[2] = ""+energyConsumption;
+        outString[3] = ""+getConsumption();
+        outString[7] = ""+getProductivity();
     }
 
     public void setNowResult(int nowResult) {
         this.nowResult = nowResult;
+        outString[4] = ""+nowResult;
+        outString[6]=""+getResult();
+        outString[7]=""+getProductivity();
     }
 
     public void setPrognosisResult(int prognosisResult) {
         this.prognosisResult = prognosisResult;
+        outString[5] = ""+prognosisResult;
+        outString[6]=""+getResult();
+        outString[7]=""+getProductivity();
     }
 
     public void setTimeConsumption(int timeConsumption) {
         this.timeConsumption = timeConsumption;
+        outString[1] = ""+timeConsumption;
+        outString[3] = ""+getConsumption();
+        outString[7] = ""+getProductivity();
     }
 
     public void setName(String name) {
         this.name = name;
+        outString[0]=name;
     }
 
     public String getName() {
@@ -63,14 +78,17 @@ public class Task {
         this.timeConsumption = TCons;
         this.energyConsumption = ECons;
         this.name = name;
+        outString = new String[]{name,"" + timeConsumption, ""+energyConsumption, ""+ getConsumption(),
+                ""+nowResult,""+prognosisResult,""+ getResult(),""+ getProductivity()};
     }
 
     public Task (String name){
         this.name = name;
+
+        outString=new String[]{name, "0","0","0","0","0","0","0"};
     }
 
     public String[] toStringArray (){
-        return new String[]{name,"" + timeConsumption, ""+energyConsumption, ""+ getConsumption(),
-        ""+nowResult,""+prognosisResult,""+ getResult(),""+ getProductivity()};
+        return outString;
     }
 }

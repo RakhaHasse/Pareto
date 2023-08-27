@@ -187,8 +187,10 @@ public class Frame extends JFrame
             else task = new Task(n);
 
             Tasks.add(task);
-            optionsList.addItem(task.getName());
-            model.addRow(task.toStringArray());
+            Tasks.doSort();
+
+            model.addRow(Tasks.getTaskIndex(n),task.toStringArray());
+            optionsList.insertItemAt(n,Tasks.getTaskIndex(n));
         }
 
     }
@@ -202,20 +204,20 @@ public class Frame extends JFrame
             int no = Integer.parseInt(this.now.getText());
             int p = Integer.parseInt(this.prognosis.getText());
             Task temp = Tasks.getTask(Objects.requireNonNull(optionsList.getSelectedItem()).toString());
-            model.removeRow(optionsList.getSelectedIndex());
+
             temp.setName(n);
             temp.setNowResult(no);
             temp.setEnergyConsumption(en);
             temp.setPrognosisResult(p);
             temp.setTimeConsumption(t);
-            model.addRow(temp.toStringArray());
-            model.fireTableRowsUpdated(1,model.getRowCount());
+            Tasks.doSort();
+
             optionsList.removeItem(optionsList.getSelectedItem());
-            optionsList.addItem(n);
+            optionsList.insertItemAt(n,Tasks.getTaskIndex(n));
 
-
-
-
+            model.removeRow(optionsList.getSelectedIndex());
+            model.addRow(Tasks.getTaskIndex(n),temp.toStringArray());
+            model.fireTableRowsUpdated(1,model.getRowCount());
         }
     }
 

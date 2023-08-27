@@ -1,6 +1,6 @@
 import javax.swing.table.AbstractTableModel;
 import java.util.ArrayList;
-import java.util.Arrays;
+
 
 public class TableModel extends AbstractTableModel {
     private ArrayList<Object[]> data;
@@ -43,18 +43,16 @@ public class TableModel extends AbstractTableModel {
         fireTableRowsInserted(row, row);
     }
 
+    public void addRow (int index, Object[] rowData){
+        data.add(index,rowData);
+        fireTableRowsInserted(index, index);
+    }
+
     public void removeRow(int row) {
-        data.remove(row-1);
+        data.remove(row);
         fireTableRowsDeleted(row, row);
     }
 
-    public void removeRow (String[] sArray){
-        for (int i = 0; i<this.data.size();i++){
-                removeRow(i);
 
-            System.out.println("Row deleted");
-        }
-
-    }
 }
 
