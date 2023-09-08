@@ -33,6 +33,7 @@ public class TasksList extends ArrayList<Task> {
         return result;
     }
 
+
     public int getTaskIndex (String name){
         int result = 0;
         for (; result < this.size()-1; result++) {

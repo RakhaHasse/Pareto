@@ -20,6 +20,13 @@ public class Frame extends JFrame
     TasksList Tasks;
 
     private TableModel model;
+
+    public static void main(String[] args) {
+        Frame win = new Frame();
+        win.Launch();
+
+    }
+
     public void Launch (){
         Tasks = new TasksList();
 
@@ -186,11 +193,18 @@ public class Frame extends JFrame
             if (t != 0) if (en != 0) if (no != 0) if (p != 0) task = new Task(n, en, t, no, p);
             else task = new Task(n);
 
-            Tasks.add(task);
-            Tasks.doSort();
+            if (Tasks.getTask(n)==null) {
+                Tasks.add(task);
+                Tasks.doSort();
+                int taskIndex = Tasks.getTaskIndex(n);
 
-            model.addRow(Tasks.getTaskIndex(n),task.toStringArray());
-            optionsList.insertItemAt(n,Tasks.getTaskIndex(n));
+                model.addRow(taskIndex, task.toStringArray());
+                optionsList.insertItemAt(n, taskIndex);
+            }
+            else JOptionPane.showMessageDialog(new JOptionPane(),
+                    "Please, change name to another.",
+                    "Duplicate names",
+                    JOptionPane.WARNING_MESSAGE);
         }
 
     }
@@ -199,11 +213,14 @@ public class Frame extends JFrame
         if (!optionsList.getSelectedItem().equals("New task")) {
 
             String n = this.name.getText();
+
             int t = Integer.parseInt(this.time.getText());
             int en = Integer.parseInt(this.energy.getText());
             int no = Integer.parseInt(this.now.getText());
             int p = Integer.parseInt(this.prognosis.getText());
+
             Task temp = Tasks.getTask(Objects.requireNonNull(optionsList.getSelectedItem()).toString());
+
 
             temp.setName(n);
             temp.setNowResult(no);
@@ -211,12 +228,13 @@ public class Frame extends JFrame
             temp.setPrognosisResult(p);
             temp.setTimeConsumption(t);
             Tasks.doSort();
+            int taskIndex = Tasks.getTaskIndex(n);
 
             optionsList.removeItem(optionsList.getSelectedItem());
-            optionsList.insertItemAt(n,Tasks.getTaskIndex(n));
+            optionsList.insertItemAt(n,taskIndex);
 
             model.removeRow(optionsList.getSelectedIndex());
-            model.addRow(Tasks.getTaskIndex(n),temp.toStringArray());
+            model.addRow(taskIndex,temp.toStringArray());
             model.fireTableRowsUpdated(1,model.getRowCount());
         }
     }
@@ -247,4 +265,7 @@ public class Frame extends JFrame
             optionsList.removeItem(optionsList.getSelectedItem());
         }
     }
+
+
+
 }

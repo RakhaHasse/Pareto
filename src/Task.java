@@ -5,14 +5,17 @@ public class Task {
     private String [] outString;
 
     public double getConsumption(){
-        return (double) (energyConsumption+timeConsumption)/2;
+        return Math.round((energyConsumption+timeConsumption)/2.0*1000.0)/1000.;
     }
     public double getResult(){
-        return (double) (nowResult+prognosisResult)/2;
+        return Math.round((nowResult+prognosisResult)/2.0*1000)/1000.0;
     }
     public double getProductivity(){
-        if (this.getConsumption()!=0)
-        return (this.getResult()/this.getConsumption());
+        if (this.getConsumption()!=0) {
+
+        return Math.round(this.getResult()/this.getConsumption()*1000.0)/1000.0;
+        }
+
         else return 0;
     }
 
