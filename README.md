@@ -5,6 +5,25 @@
 
 The idea is simple: different tasks require different amounts of time and energy, while also giving different levels of immediate and future value. This application helps the user compare such tasks using a compact personal productivity formula.
 
+## Quick Start
+
+Make sure you have **Java 8** or newer installed.
+
+Run the application with:
+
+```bash
+java -jar Pareto.jar
+````
+
+If you want to run the project from source code:
+
+```bash
+git clone https://github.com/RakhaHasse/Pareto.git
+```
+
+Then open the project in your Java IDE and run the application.
+
+
 ## Features
 
 - Add tasks with custom parameters
