@@ -26,12 +26,12 @@ Then open the project in your Java IDE and run the application.
 ## Screenshots
 
 ### Main window
-![Pareto-window-for-edit-task](Images/one-task-detail-screen.png)
-![Pareto-window-for-view-tasks](‎Images/tasks-table-screen.png‎‎)
+![Pareto window for edit task](https://github.com/RakhaHasse/Pareto/blob/main/Images/one-task-detai-screen.png)
+![Pareto window for view tasks](https://github.com/RakhaHasse/Pareto/blob/main/Images/tasks-table-screen.png)
 
 ### Example with tasks
-![Pareto-task-example](Images/test-task-filled-screen.png)
-![Pareto-tasks-table-example](‎Images/test-tasks-table-screen.png‎)
+![Pareto task example](https://github.com/RakhaHasse/Pareto/blob/main/Images/test-task-filled-screen.png)
+![Pareto tasks table example](https://github.com/RakhaHasse/Pareto/blob/main/Images/test-tasks-table-screen.png‎)
 
 ## Features
 
