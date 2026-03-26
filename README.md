@@ -174,6 +174,6 @@ Possible next steps for the project:
 
 ## License
 
-This project is licensed under the MIT License.
-For compose Readme.md used ChatGPT v. 5.4
+* This project is licensed under the MIT License.
+* README was prepared with the help of ChatGPT v. 5.4.
 ```
