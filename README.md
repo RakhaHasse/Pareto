@@ -23,6 +23,15 @@ git clone https://github.com/RakhaHasse/Pareto.git
 
 Then open the project in your Java IDE and run the application.
 
+## Screenshots
+
+### Main window
+![Pareto window for edit task]([‎Images/One task detail screen.png‎])
+![Pareto window for view tasks]([‎Images/Tasks table screen.png‎‎])
+
+### Example with tasks
+![Pareto task example](‎[Images/Test task filled screen.png‎])
+![Pareto tasks table example]([‎Images/Test tasks table screen.png]‎)
 
 ## Features
 
