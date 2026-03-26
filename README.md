@@ -1,4 +1,4 @@
-````md
+
 # Pareto
 
 **Pareto** is a small Java Swing application for comparing tasks by their **subjective productivity**.
