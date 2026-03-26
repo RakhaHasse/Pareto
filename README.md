@@ -195,4 +195,3 @@ Possible next steps for the project:
 
 * This project is licensed under the MIT License.
 * README was prepared with the help of ChatGPT 5.4.
-```
