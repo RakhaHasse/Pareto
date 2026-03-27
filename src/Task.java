@@ -3,7 +3,7 @@ public class Task {
     private int energyConsumption, timeConsumption, nowResult, prognosisResult;
     private String name;
     private String [] outString;
-
+    private static Double specialRuleForZeroConsumption;
     private boolean isTaskUpdated;
     public double getConsumption(){
         return Math.round((energyConsumption+timeConsumption)/2.0*1000.0)/1000.0;
@@ -14,7 +14,7 @@ public class Task {
     public double getProductivity(){
         return (this.getConsumption()!=0) ?
                 Math.round(this.getResult()/this.getConsumption()*1000.0)/1000.0 :
-                (this.getResult() * 1000.0)/250.0;
+                (this.getResult() * specialRuleForZeroConsumption); //Special fallback for zero consumption to avoid division by zero
     }
 
     public int getEnergyConsumption() {
@@ -31,6 +31,10 @@ public class Task {
 
     public int getTimeConsumption() {
         return timeConsumption;
+    }
+
+    public static void setSpecialRuleForZeroConsumption(double setUpLink) {
+        specialRuleForZeroConsumption = setUpLink;
     }
 
     public void setEnergyConsumption(int energyConsumption) {
@@ -84,7 +88,7 @@ public class Task {
 
     public Task (){
         updateOutString();
-    }
+        }
     public Task (String name, int ECons, int TCons, int NRes, int PRes){
         this.prognosisResult = PRes;
         this.nowResult = NRes;

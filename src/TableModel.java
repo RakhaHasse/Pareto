@@ -1,11 +1,39 @@
 import javax.swing.table.AbstractTableModel;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.DocumentFilter;
+import javax.swing.text.PlainDocument;
 import java.util.ArrayList;
 
 
 public class TableModel extends AbstractTableModel {
     private static TableModel singletone;
+    private int safetyTextFieldValue = 1;
+
+    public Integer getSafetyTextFieldValue() {
+        return safetyTextFieldValue;
+    }
+
+    public void setSafetyTextFieldValue(int safetyTextFieldValue) {
+        this.safetyTextFieldValue = safetyTextFieldValue;
+    }
+
+    private Double specialTaskRuleForZeroConsumption = 4.0;
+
+    public Double getSpecialTaskRuleForZeroConsumption() {
+        return specialTaskRuleForZeroConsumption;
+    }
+
+    public void setSpecialTaskRuleForZeroConsumption(Double specialTaskRuleForZeroConsumption) {
+        this.specialTaskRuleForZeroConsumption = specialTaskRuleForZeroConsumption;
+    }
+
     public static TableModel getModel(){
-        if (singletone == null) singletone= new TableModel();
+        if (singletone == null) {
+            singletone= new TableModel();
+            Task.setSpecialRuleForZeroConsumption(singletone.specialTaskRuleForZeroConsumption);
+            TextField.setSafetyValue(singletone.safetyTextFieldValue);
+        }
         return singletone;
     }
     private ArrayList<String[]> data;
@@ -42,7 +70,7 @@ public class TableModel extends AbstractTableModel {
     public String [] getColumnNames () {return columnNames;}
 
     @Override
-    public Object getValueAt(int row, int column) {
+    public String getValueAt(int row, int column) {
         return data.get(row)[column];
     }
 
@@ -68,6 +96,22 @@ public class TableModel extends AbstractTableModel {
         fireTableRowsDeleted(row, row);
     }
 
+    public PlainDocument getDocument (){
+        PlainDocument doc0 = new PlainDocument();
+        doc0.setDocumentFilter(new DocumentFilter() {
+            @Override
+            public void insertString(DocumentFilter.FilterBypass fb, int off, String str, AttributeSet attr)
+                    throws BadLocationException {
+                fb.insertString(off, str.replaceAll("\\D++", ""), attr);  // remove non-digits
+            }
+            @Override
+            public void replace(DocumentFilter.FilterBypass fb, int off, int len, String str, AttributeSet attr)
+                    throws BadLocationException {
+                fb.replace(off, len, str.replaceAll("\\D++", ""), attr);  // remove non-digits
+            }
+        });
+        return doc0;
+    }
 
 }
 

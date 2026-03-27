@@ -5,11 +5,9 @@ import java.awt.*;
 
 public class Table extends JTable {
         Table (String[][] rowData,String[] names){
-
         super (rowData,names);
         this.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);;
         this.setModel(TableModel.getModel());
-
     }
 
     @Override

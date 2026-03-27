@@ -1,14 +1,7 @@
 import javax.swing.*;
-import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableColumn;
-import javax.swing.text.AttributeSet;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.DocumentFilter;
-import javax.swing.text.PlainDocument;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.Objects;
 
 
@@ -38,10 +31,10 @@ public class Frame extends JFrame
         JPanel content = new JPanel();
         content.setLayout(new BorderLayout());
 
-        time.setDocument(getDocument());
-        energy.setDocument(getDocument());
-        now.setDocument(getDocument());
-        prognosis.setDocument(getDocument());
+        time.setDocument(TableModel.getModel().getDocument());
+        energy.setDocument(TableModel.getModel().getDocument());
+        now.setDocument(TableModel.getModel().getDocument());
+        prognosis.setDocument(TableModel.getModel().getDocument());
 
 
         tabbedPane.add("Pareto Table", this.createTable());
@@ -169,14 +162,19 @@ public class Frame extends JFrame
         return result;
     }
 
+    private int [] readTaskValues() {
+        return new int[] {
+                Integer.parseInt(this.time.getSafeTextForParseInt()),
+                Integer.parseInt(this.energy.getSafeTextForParseInt()),
+                Integer.parseInt(this.now.getSafeTextForParseInt()),
+                Integer.parseInt(this.prognosis.getSafeTextForParseInt())
+        };
+    }
     public void actionAddButton (ActionEvent e){
         if (optionsList.getSelectedItem().equals("New task")) {
             String n = this.name.getText();
-            int t = Integer.parseInt(this.time.getSafeTextForParseInt());
-            int en = Integer.parseInt(this.energy.getSafeTextForParseInt());
-            int no = Integer.parseInt(this.now.getSafeTextForParseInt());
-            int p = Integer.parseInt(this.prognosis.getSafeTextForParseInt());
-            Task task = new Task(n, en, t, no, p);
+            int[] temp = readTaskValues();
+            Task task = new Task(n, temp[0], temp[1], temp[2], temp[3]);
 
             if (Tasks.getTask(n)==null) {
                 Tasks.add(task);
@@ -211,19 +209,16 @@ public class Frame extends JFrame
                 }
             }
             if (!isDupliate) {
-                int t = Integer.parseInt(this.time.getText());
-                int en = Integer.parseInt(this.energy.getText());
-                int no = Integer.parseInt(this.now.getText());
-                int p = Integer.parseInt(this.prognosis.getText());
+                int [] values = readTaskValues();
 
                 Task temp = Tasks.getTask(Objects.requireNonNull(optionsList.getSelectedItem()).toString());
 
 
                 temp.setName(n);
-                temp.setNowResult(no);
-                temp.setEnergyConsumption(en);
-                temp.setPrognosisResult(p);
-                temp.setTimeConsumption(t);
+                temp.setNowResult(values[2]);
+                temp.setEnergyConsumption(values[1]);
+                temp.setPrognosisResult(values[3]);
+                temp.setTimeConsumption(values[0]);
                 Tasks.doSortUpByProductivity();
                 int taskIndex = Tasks.getTaskIndex(n);
 
@@ -235,24 +230,6 @@ public class Frame extends JFrame
                 TableModel.getModel().fireTableRowsUpdated(1, TableModel.getModel().getRowCount());
             }
         }
-    }
-
-    public PlainDocument getDocument () {
-        PlainDocument doc0 = new PlainDocument();
-        doc0.setDocumentFilter(new DocumentFilter() {
-            @Override
-            public void insertString(DocumentFilter.FilterBypass fb, int off, String str, AttributeSet attr)
-                    throws BadLocationException {
-                fb.insertString(off, str.replaceAll("\\D++", ""), attr);  // remove non-digits
-            }
-
-            @Override
-            public void replace(DocumentFilter.FilterBypass fb, int off, int len, String str, AttributeSet attr)
-                    throws BadLocationException {
-                fb.replace(off, len, str.replaceAll("\\D++", ""), attr);  // remove non-digits
-            }
-        });
-        return doc0;
     }
 
     public void actionDeleteTask (){
