@@ -31,7 +31,7 @@ Then open the project in your Java IDE and run the application.
 ## Screenshots
 
 ### Main window
-![Pareto window for edit task](Images/one-task-detai-screen.png)
+![Pareto window for edit task](Images/one-task-detail-screen.png)
 ![Pareto window for view tasks](Images/tasks-table-screen.png)
 
 ### Example with tasks
