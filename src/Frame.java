@@ -14,7 +14,7 @@ import java.util.Objects;
 
 public class Frame extends JFrame
 {
-    JTextField energy, time, now, prognosis, name;
+    TextFieldAdopted energy, time, now, prognosis, name;
     JTable table;
     JComboBox optionsList;
     TasksList Tasks;
@@ -94,7 +94,7 @@ public class Frame extends JFrame
         constraints.gridx =0;
         constraints.gridy =0;
         result.add(nameD,constraints);
-        JTextField name = new JTextField("Enter task name", 10);
+        TextFieldAdopted name = new TextFieldAdopted("Enter task name", 10);
         this.name = name;
         constraints.gridx = 1;
         result.add(name,constraints);
@@ -104,7 +104,7 @@ public class Frame extends JFrame
         JLabel timeD = new JLabel("Time consumption:");
         result.add(timeD, constraints);
         constraints.gridx = 1;
-        JTextField time = new JTextField("Enter value ", 10);
+        TextFieldAdopted time = new TextFieldAdopted("Enter value ", 10);
 
         this.time = time;
         result.add(time, constraints);
@@ -114,7 +114,7 @@ public class Frame extends JFrame
         JLabel energyD = new JLabel("Energy consumption");
         result.add(energyD, constraints);
         constraints.gridx = 1;
-        JTextField energy = new JTextField("Enter value:", 10);
+        TextFieldAdopted energy = new TextFieldAdopted("Enter value:", 10);
         this.energy = energy;
         result.add(energy, constraints);
 
@@ -123,7 +123,7 @@ public class Frame extends JFrame
         JLabel nowD = new JLabel("Result now:");
         result.add(nowD, constraints);
         constraints.gridx = 1;
-        JTextField now = new JTextField("Enter value", 10);
+        TextFieldAdopted now = new TextFieldAdopted("Enter value", 10);
         this.now = now;
         result.add(now, constraints);
 
@@ -132,7 +132,7 @@ public class Frame extends JFrame
         JLabel prognosisD = new JLabel("Prognosis result:");
         result.add(prognosisD, constraints);
         constraints.gridx = 1;
-        JTextField prognosis = new JTextField("Enter value", 10);
+        TextFieldAdopted prognosis = new TextFieldAdopted("Enter value", 10);
         this.prognosis = prognosis;
         result.add(prognosis, constraints);
 
@@ -189,9 +189,7 @@ public class Frame extends JFrame
             int en = Integer.parseInt(this.energy.getText());
             int no = Integer.parseInt(this.now.getText());
             int p = Integer.parseInt(this.prognosis.getText());
-            Task task = null;
-            if (t != 0) if (en != 0) if (no != 0) if (p != 0) task = new Task(n, en, t, no, p);
-            else task = new Task(n);
+            Task task = new Task(n, en, t, no, p);
 
             if (Tasks.getTask(n)==null) {
                 Tasks.add(task);
@@ -213,29 +211,42 @@ public class Frame extends JFrame
         if (!optionsList.getSelectedItem().equals("New task")) {
 
             String n = this.name.getText();
+            boolean isDupliate = false;
+            for (int i =0; i< optionsList.getItemCount()-1;i++){
+                if (optionsList.getSelectedIndex()==i) i++;
+                if (optionsList.getItemAt(i).toString().equals(n)){
+                    JOptionPane.showMessageDialog(new JOptionPane(),
+                            "Please, change name to another.",
+                            "Duplicate names",
+                            JOptionPane.WARNING_MESSAGE);
+                    isDupliate = true;
+                    break;
+                }
+            }
+            if (!isDupliate) {
+                int t = Integer.parseInt(this.time.getText());
+                int en = Integer.parseInt(this.energy.getText());
+                int no = Integer.parseInt(this.now.getText());
+                int p = Integer.parseInt(this.prognosis.getText());
 
-            int t = Integer.parseInt(this.time.getText());
-            int en = Integer.parseInt(this.energy.getText());
-            int no = Integer.parseInt(this.now.getText());
-            int p = Integer.parseInt(this.prognosis.getText());
-
-            Task temp = Tasks.getTask(Objects.requireNonNull(optionsList.getSelectedItem()).toString());
+                Task temp = Tasks.getTask(Objects.requireNonNull(optionsList.getSelectedItem()).toString());
 
 
-            temp.setName(n);
-            temp.setNowResult(no);
-            temp.setEnergyConsumption(en);
-            temp.setPrognosisResult(p);
-            temp.setTimeConsumption(t);
-            Tasks.doSort();
-            int taskIndex = Tasks.getTaskIndex(n);
+                temp.setName(n);
+                temp.setNowResult(no);
+                temp.setEnergyConsumption(en);
+                temp.setPrognosisResult(p);
+                temp.setTimeConsumption(t);
+                Tasks.doSort();
+                int taskIndex = Tasks.getTaskIndex(n);
 
-            optionsList.removeItem(optionsList.getSelectedItem());
-            optionsList.insertItemAt(n,taskIndex);
+                optionsList.removeItem(optionsList.getSelectedItem());
+                optionsList.insertItemAt(n, taskIndex);
 
-            model.removeRow(optionsList.getSelectedIndex());
-            model.addRow(taskIndex,temp.toStringArray());
-            model.fireTableRowsUpdated(1,model.getRowCount());
+                model.removeRow(optionsList.getSelectedIndex());
+                model.addRow(taskIndex, temp.toStringArray());
+                model.fireTableRowsUpdated(1, model.getRowCount());
+            }
         }
     }
 
