@@ -25,12 +25,11 @@ public class TasksList extends ArrayList<Task> {
 
 
     public int getTaskIndex (String name){
-        int result = 0;
-          {
+
+          for (int result = 0; result < this.size(); result++){
             if (this.get(result).getName().equals(name))
                 return result;
-            result++;
-        } while (result < this.size()-1);
+          }
         return -1;
     }
 

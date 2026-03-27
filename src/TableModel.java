@@ -1,8 +1,4 @@
 import javax.swing.table.AbstractTableModel;
-import javax.swing.text.AttributeSet;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.DocumentFilter;
-import javax.swing.text.PlainDocument;
 import java.util.ArrayList;
 
 
@@ -32,7 +28,7 @@ public class TableModel extends AbstractTableModel {
         if (singletone == null) {
             singletone= new TableModel();
             Task.setSpecialRuleForZeroConsumption(singletone.specialTaskRuleForZeroConsumption);
-            TextField.setSafetyValue(singletone.safetyTextFieldValue);
+            DigitsTextField.setSafetyValue(singletone.safetyTextFieldValue);
         }
         return singletone;
     }
@@ -96,22 +92,7 @@ public class TableModel extends AbstractTableModel {
         fireTableRowsDeleted(row, row);
     }
 
-    public PlainDocument getDocument (){
-        PlainDocument doc0 = new PlainDocument();
-        doc0.setDocumentFilter(new DocumentFilter() {
-            @Override
-            public void insertString(DocumentFilter.FilterBypass fb, int off, String str, AttributeSet attr)
-                    throws BadLocationException {
-                fb.insertString(off, str.replaceAll("\\D++", ""), attr);  // remove non-digits
-            }
-            @Override
-            public void replace(DocumentFilter.FilterBypass fb, int off, int len, String str, AttributeSet attr)
-                    throws BadLocationException {
-                fb.replace(off, len, str.replaceAll("\\D++", ""), attr);  // remove non-digits
-            }
-        });
-        return doc0;
-    }
+
 
 }
 
