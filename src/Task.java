@@ -4,19 +4,17 @@ public class Task {
     private String name;
     private String [] outString;
 
+    private boolean isTaskUpdated;
     public double getConsumption(){
-        return Math.round((energyConsumption+timeConsumption)/2.0*1000.0)/1000.;
+        return Math.round((energyConsumption+timeConsumption)/2.0*1000.0)/1000.0;
     }
     public double getResult(){
         return Math.round((nowResult+prognosisResult)/2.0*1000)/1000.0;
     }
     public double getProductivity(){
-        if (this.getConsumption()!=0) {
-
-        return Math.round(this.getResult()/this.getConsumption()*1000.0)/1000.0;
-        }
-
-        else return 0;
+        return (this.getConsumption()!=0) ?
+                Math.round(this.getResult()/this.getConsumption()*1000.0)/1000.0 :
+                (this.getResult() * 1000.0)/250.0;
     }
 
     public int getEnergyConsumption() {
@@ -37,35 +35,47 @@ public class Task {
 
     public void setEnergyConsumption(int energyConsumption) {
         this.energyConsumption = energyConsumption;
+        this.isTaskUpdated = true;
+        /*
         outString[2] = ""+energyConsumption;
         outString[3] = ""+getConsumption();
         outString[7] = ""+getProductivity();
+        */
     }
 
     public void setNowResult(int nowResult) {
         this.nowResult = nowResult;
+        this.isTaskUpdated = true;
+        /*
         outString[4] = ""+nowResult;
         outString[6]=""+getResult();
         outString[7]=""+getProductivity();
+        */
     }
 
     public void setPrognosisResult(int prognosisResult) {
         this.prognosisResult = prognosisResult;
+        this.isTaskUpdated = true;
+       /*
         outString[5] = ""+prognosisResult;
         outString[6]=""+getResult();
         outString[7]=""+getProductivity();
+        */
     }
 
     public void setTimeConsumption(int timeConsumption) {
         this.timeConsumption = timeConsumption;
+        this.isTaskUpdated = true;
+        /*
         outString[1] = ""+timeConsumption;
         outString[3] = ""+getConsumption();
         outString[7] = ""+getProductivity();
+         */
     }
 
     public void setName(String name) {
         this.name = name;
-        outString[0]=name;
+        this.isTaskUpdated = true;
     }
 
     public String getName() {
@@ -73,7 +83,7 @@ public class Task {
     }
 
     public Task (){
-
+        updateOutString();
     }
     public Task (String name, int ECons, int TCons, int NRes, int PRes){
         this.prognosisResult = PRes;
@@ -81,17 +91,26 @@ public class Task {
         this.timeConsumption = TCons;
         this.energyConsumption = ECons;
         this.name = name;
-        outString = new String[]{name,"" + timeConsumption, ""+energyConsumption, ""+ getConsumption(),
-                ""+nowResult,""+prognosisResult,""+ getResult(),""+ getProductivity()};
+        updateOutString();
     }
 
     public Task (String name){
         this.name = name;
-
-        outString=new String[]{name, "0","0","0","0","0","0","0"};
+        this.prognosisResult = 1;
+        this.nowResult = 1;
+        this.timeConsumption = 1;
+        this.energyConsumption = 1;
+        updateOutString();
     }
 
     public String[] toStringArray (){
+        return isTaskUpdated ? updateOutString() : outString;
+    }
+
+    private String [] updateOutString() {
+        outString = new String[]{name,"" + timeConsumption, ""+energyConsumption, ""+ getConsumption(),
+                ""+nowResult,""+prognosisResult,""+ getResult(),"" + getProductivity()};
+        isTaskUpdated = false;
         return outString;
     }
 }

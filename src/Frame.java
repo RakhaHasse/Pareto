@@ -14,12 +14,10 @@ import java.util.Objects;
 
 public class Frame extends JFrame
 {
-    TextFieldAdopted energy, time, now, prognosis, name;
-    JTable table;
+    TextField energy, time, now, prognosis, name;
+    Table table;
     JComboBox optionsList;
     TasksList Tasks;
-
-    private TableModel model;
 
     public static void main(String[] args) {
         Frame win = new Frame();
@@ -58,19 +56,11 @@ public class Frame extends JFrame
     }
 
     private JPanel createTable(){
-        model = new TableModel(new ArrayList<Object[]>(), Tasks.columnNames);
-        JTable table = new JTable(new String[][]{Tasks.columnNames}, Tasks.columnNames){
-            @Override
-            public Component prepareRenderer(TableCellRenderer renderer, int row, int column) {
-                Component component = super.prepareRenderer(renderer, row, column);
-                int rendererWidth = component.getPreferredSize().width;
-                TableColumn tableColumn = getColumnModel().getColumn(column);
-                tableColumn.setPreferredWidth(Math.max(rendererWidth + getIntercellSpacing().width, tableColumn.getPreferredWidth()));
-                return component;
-            }
+
+        Table table = new Table(new String[][]{TableModel.getModel().getColumnNames()},
+                TableModel.getModel().getColumnNames()){
         };
-        table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);;
-        table.setModel(model);
+
         JPanel Table = new JPanel();
         JScrollPane scrollPane = new JScrollPane(table);
         Table.add(table.getTableHeader(),BorderLayout.NORTH);
@@ -79,10 +69,7 @@ public class Frame extends JFrame
         Table.setPreferredSize(new Dimension(1000, 420));
         this.table=table;
 
-
-
-        //Protection against table editing
-        table.setDefaultEditor(Object.class, null);
+        this.table.setDefaultEditor(Object.class, null); //Protection against table editing
 
         return Table;
     }
@@ -94,7 +81,7 @@ public class Frame extends JFrame
         constraints.gridx =0;
         constraints.gridy =0;
         result.add(nameD,constraints);
-        TextFieldAdopted name = new TextFieldAdopted("Enter task name", 10);
+        TextField name = new TextField("Enter task name", 10);
         this.name = name;
         constraints.gridx = 1;
         result.add(name,constraints);
@@ -104,7 +91,7 @@ public class Frame extends JFrame
         JLabel timeD = new JLabel("Time consumption:");
         result.add(timeD, constraints);
         constraints.gridx = 1;
-        TextFieldAdopted time = new TextFieldAdopted("Enter value ", 10);
+        TextField time = new TextField("Enter value ", 10);
 
         this.time = time;
         result.add(time, constraints);
@@ -114,7 +101,7 @@ public class Frame extends JFrame
         JLabel energyD = new JLabel("Energy consumption");
         result.add(energyD, constraints);
         constraints.gridx = 1;
-        TextFieldAdopted energy = new TextFieldAdopted("Enter value:", 10);
+        TextField energy = new TextField("Enter value:", 10);
         this.energy = energy;
         result.add(energy, constraints);
 
@@ -123,7 +110,7 @@ public class Frame extends JFrame
         JLabel nowD = new JLabel("Result now:");
         result.add(nowD, constraints);
         constraints.gridx = 1;
-        TextFieldAdopted now = new TextFieldAdopted("Enter value", 10);
+        TextField now = new TextField("Enter value", 10);
         this.now = now;
         result.add(now, constraints);
 
@@ -132,7 +119,7 @@ public class Frame extends JFrame
         JLabel prognosisD = new JLabel("Prognosis result:");
         result.add(prognosisD, constraints);
         constraints.gridx = 1;
-        TextFieldAdopted prognosis = new TextFieldAdopted("Enter value", 10);
+        TextField prognosis = new TextField("Enter value", 10);
         this.prognosis = prognosis;
         result.add(prognosis, constraints);
 
@@ -185,18 +172,18 @@ public class Frame extends JFrame
     public void actionAddButton (ActionEvent e){
         if (optionsList.getSelectedItem().equals("New task")) {
             String n = this.name.getText();
-            int t = Integer.parseInt(this.time.getText());
-            int en = Integer.parseInt(this.energy.getText());
-            int no = Integer.parseInt(this.now.getText());
-            int p = Integer.parseInt(this.prognosis.getText());
+            int t = Integer.parseInt(this.time.getSafeTextForParseInt());
+            int en = Integer.parseInt(this.energy.getSafeTextForParseInt());
+            int no = Integer.parseInt(this.now.getSafeTextForParseInt());
+            int p = Integer.parseInt(this.prognosis.getSafeTextForParseInt());
             Task task = new Task(n, en, t, no, p);
 
             if (Tasks.getTask(n)==null) {
                 Tasks.add(task);
-                Tasks.doSort();
+                Tasks.doSortUpByProductivity();
                 int taskIndex = Tasks.getTaskIndex(n);
 
-                model.addRow(taskIndex, task.toStringArray());
+                TableModel.getModel().addRow(taskIndex, task.toStringArray());
                 optionsList.insertItemAt(n, taskIndex);
             }
             else JOptionPane.showMessageDialog(new JOptionPane(),
@@ -237,15 +224,15 @@ public class Frame extends JFrame
                 temp.setEnergyConsumption(en);
                 temp.setPrognosisResult(p);
                 temp.setTimeConsumption(t);
-                Tasks.doSort();
+                Tasks.doSortUpByProductivity();
                 int taskIndex = Tasks.getTaskIndex(n);
 
                 optionsList.removeItem(optionsList.getSelectedItem());
                 optionsList.insertItemAt(n, taskIndex);
 
-                model.removeRow(optionsList.getSelectedIndex());
-                model.addRow(taskIndex, temp.toStringArray());
-                model.fireTableRowsUpdated(1, model.getRowCount());
+                TableModel.getModel().removeRow(optionsList.getSelectedIndex());
+                TableModel.getModel().addRow(taskIndex, temp.toStringArray());
+                TableModel.getModel().fireTableRowsUpdated(1, TableModel.getModel().getRowCount());
             }
         }
     }
@@ -272,11 +259,8 @@ public class Frame extends JFrame
 
         if(!optionsList.getSelectedItem().toString().equals("New task")) {
             Tasks.remove(Tasks.getTask(optionsList.getSelectedItem().toString()));
-            model.removeRow(optionsList.getSelectedIndex());
+            TableModel.getModel().removeRow(optionsList.getSelectedIndex());
             optionsList.removeItem(optionsList.getSelectedItem());
         }
     }
-
-
-
 }
