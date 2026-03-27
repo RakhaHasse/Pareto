@@ -140,7 +140,7 @@ Contains the main Swing window and user interface logic.
 
 To run the application you need:
 
-* **Java 8** or newer
+* **Java 11** or newer
 
 ## Running the application
 
