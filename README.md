@@ -5,6 +5,11 @@
 
 The idea is simple: different tasks require different amounts of time and energy, while also giving different levels of immediate and future value. This application helps the user compare such tasks using a compact personal productivity formula.
 
+## Origin of the idea
+
+This app was created as a small personal tool inspired by a real request from another person.  
+Its purpose was to compare tasks not only by formal effort, but by subjective experience: how much time and energy they require, what they give now, and what they may give in the future.
+
 ## Quick Start
 
 Make sure you have **Java 8** or newer installed.
@@ -26,12 +31,12 @@ Then open the project in your Java IDE and run the application.
 ## Screenshots
 
 ### Main window
-![Pareto-window-for-edit-task](Images/one-task-detail-screen.png)
-![Pareto-window-for-view-tasks](‎Images/tasks-table-screen.png‎‎)
+![Pareto window for edit task](Images/one-task-detai-screen.png)
+![Pareto window for view tasks](Images/tasks-table-screen.png)
 
 ### Example with tasks
-![Pareto-task-example](Images/test-task-filled-screen.png)
-![Pareto-tasks-table-example](‎Images/test-tasks-table-screen.png‎)
+![Pareto task example](Images/test-task-filled-screen.png)
+![Pareto tasks table example](Images/test-tasks-table-screen.png)
 
 ## Features
 
