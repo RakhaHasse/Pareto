@@ -87,6 +87,7 @@ public class Task {
     }
 
     public Task (){
+        this.name="New task";
         updateOutString();
         }
     public Task (String name, int ECons, int TCons, int NRes, int PRes){

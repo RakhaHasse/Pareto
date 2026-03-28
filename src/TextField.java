@@ -11,9 +11,8 @@ public class TextField extends JTextField {
 
     }
 
-
-
-
-
-
+    @Override
+    public void setText(String t) {
+        super.setText(t);
+    }
 }

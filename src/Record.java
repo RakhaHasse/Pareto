@@ -5,10 +5,11 @@ import java.awt.event.ActionListener;
 import java.util.Objects;
 
 public class Record extends JPanel {
+    final String zeroOption = "New task";
     TextField  name;
     TasksList Tasks;
     DigitsTextField energy, time, now, prognosis;
-    JComboBox optionsList;
+    OptionsList optionsList;
     public Record(TasksList tasks){
     super(new GridBagLayout());
     Tasks = tasks;
@@ -60,8 +61,8 @@ public class Record extends JPanel {
     constraints.gridy = 5;
     constraints.gridx = 0;
     constraints.gridwidth =2;
-    String[] optionsToChoose = {"New task"};
-    JComboBox<String> list = new JComboBox<>(optionsToChoose);
+    String[] optionsToChoose = {zeroOption};
+    OptionsList list = new OptionsList(Tasks, new TextField[]{name,energy,time,now,prognosis},optionsToChoose);
         list.setBounds(80, 50, 140, 20);
        this.add(list, constraints);
     optionsList=list;
@@ -111,7 +112,7 @@ public class Record extends JPanel {
     }
     public void actionDeleteTask(ActionEvent e) {
 
-        if (!optionsList.getSelectedItem().toString().equals("New task")) {
+        if (!optionsList.getSelectedItem().toString().equals(zeroOption)) {
             Tasks.remove(Tasks.getTask(optionsList.getSelectedItem().toString()));
             TableModel.getModel().removeRow(optionsList.getSelectedIndex());
             optionsList.removeItem(optionsList.getSelectedItem());
@@ -119,7 +120,7 @@ public class Record extends JPanel {
     }
 
     public void actionChangeButton(ActionEvent e) {
-        if (!optionsList.getSelectedItem().equals("New task")) {
+        if (!optionsList.getSelectedItem().equals(zeroOption)) {
 
             String n = name.getText();
             boolean isDupliate = false;
@@ -158,7 +159,7 @@ public class Record extends JPanel {
         }
     }
     public void actionAddButton(ActionEvent e) {
-        if (optionsList.getSelectedItem().equals("New task")) {
+        if (optionsList.getSelectedItem().equals(zeroOption)) {
             String n = name.getText();
             int[] temp = readTaskValues();
             Task task = new Task(n, temp[0], temp[1], temp[2], temp[3]);
