@@ -63,98 +63,97 @@ public class Record extends JPanel {
     constraints.gridwidth =2;
     String[] optionsToChoose = {zeroOption};
     OptionsList list = new OptionsList(Tasks, new TextField[]{name,energy,time,now,prognosis},optionsToChoose);
-        list.setBounds(80, 50, 140, 20);
-       this.add(list, constraints);
-    optionsList=list;
+                list.setBounds(80, 50, 140, 20);
+                this.add(list, constraints);
+                optionsList=list;
 
-    JButton addTask = new JButton("Add task");
-    constraints.gridy = 6;
-    constraints.gridx=0;
-    constraints.gridwidth=1;
-    this.add(addTask,constraints);
-    addTask.addActionListener(new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-           actionAddButton(e);
-        }
-    });
+                JButton addTask = new JButton("Add task");
+                constraints.gridy = 6;
+                constraints.gridx=0;
+                constraints.gridwidth=1;
+                this.add(addTask,constraints);
+                addTask.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        actionAddButton(e);
+                    }
+                });
 
-    JButton changeTask = new JButton("Change task");
-    constraints.gridy = 6;
-    constraints.gridx=1;
-    constraints.gridwidth=1;
-        this.add(changeTask,constraints);
-        changeTask.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                actionChangeButton(e);
+                JButton changeTask = new JButton("Change task");
+                constraints.gridy = 6;
+                constraints.gridx=1;
+                constraints.gridwidth=1;
+                this.add(changeTask,constraints);
+                changeTask.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        actionChangeButton(e);
+                    }
+                });
+
+                JButton deleteTask = new JButton("Delete task");
+                constraints.gridx = 2;
+                this.add(deleteTask,constraints);
+                deleteTask.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        actionDeleteTask(e);
+                    }
+
+                });
             }
-        });
-
-    JButton deleteTask = new JButton("Delete task");
-    constraints.gridx = 2;
-        this.add(deleteTask,constraints);
-        deleteTask.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                actionDeleteTask(e);
+            private int[] readTaskValues() {
+                return new int[]{
+                        Integer.parseInt(time.getSafeTextForParseInt()),
+                        Integer.parseInt(energy.getSafeTextForParseInt()),
+                        Integer.parseInt(now.getSafeTextForParseInt()),
+                        Integer.parseInt(prognosis.getSafeTextForParseInt())
+                };
             }
+            public void actionDeleteTask(ActionEvent e) {
 
-        });
-    }
-    private int[] readTaskValues() {
-        return new int[]{
-                Integer.parseInt(time.getSafeTextForParseInt()),
-                Integer.parseInt(energy.getSafeTextForParseInt()),
-                Integer.parseInt(now.getSafeTextForParseInt()),
-                Integer.parseInt(prognosis.getSafeTextForParseInt())
-        };
-    }
-    public void actionDeleteTask(ActionEvent e) {
-
-        if (!optionsList.getSelectedItem().toString().equals(zeroOption)) {
-            Tasks.remove(Tasks.getTask(optionsList.getSelectedItem().toString()));
-            TableModel.getModel().removeRow(optionsList.getSelectedIndex());
-            optionsList.removeItem(optionsList.getSelectedItem());
-        }
-    }
-
-    public void actionChangeButton(ActionEvent e) {
-        if (!optionsList.getSelectedItem().equals(zeroOption)) {
-
-            String n = name.getText();
-            boolean isDupliate = false;
-            for (int i = 0; i < optionsList.getItemCount() - 1; i++) {
-                if (optionsList.getSelectedIndex() == i) i++;
-                if (optionsList.getItemAt(i).toString().equals(n)) {
-                    JOptionPane.showMessageDialog(new JOptionPane(),
-                            "Please, change name to another.",
-                            "Duplicate names",
-                            JOptionPane.WARNING_MESSAGE);
-                    isDupliate = true;
-                    break;
+                if (!optionsList.getSelectedItem().toString().equals(zeroOption)) {
+                    Tasks.remove(Tasks.getTask(optionsList.getSelectedItem().toString()));
+                    TableModel.getModel().removeRow(optionsList.getSelectedIndex());
+                    optionsList.removeItem(optionsList.getSelectedItem());
                 }
             }
-            if (!isDupliate) {
-                int[] values = readTaskValues();
 
-                Task temp = Tasks.getTask(Objects.requireNonNull(optionsList.getSelectedItem()).toString());
+            public void actionChangeButton(ActionEvent e) {
+                if (!optionsList.getSelectedItem().equals(zeroOption)) {
+
+                    String n = name.getText();
+                    boolean isDupliate = false;
+                    for (int i = 0; i < optionsList.getItemCount() - 1; i++) {
+                        if (optionsList.getSelectedIndex() == i) i++;
+                        if (optionsList.getItemAt(i).toString().equals(n)) {
+                            JOptionPane.showMessageDialog(new JOptionPane(),
+                                    "Please, change name to another.",
+                                    "Duplicate names",
+                                    JOptionPane.WARNING_MESSAGE);
+                            isDupliate = true;
+                            break;
+                        }
+                    }
+                    if (!isDupliate) {
+                        int[] values = readTaskValues();
+
+                        Task temp = Tasks.getTask(Objects.requireNonNull(optionsList.getSelectedItem()).toString());
 
 
-                temp.setName(n);
-                temp.setNowResult(values[2]);
-                temp.setEnergyConsumption(values[1]);
-                temp.setPrognosisResult(values[3]);
-                temp.setTimeConsumption(values[0]);
-                Tasks.doSortUpByProductivity();
-                int taskIndex = Tasks.getTaskIndex(n);
-
-                optionsList.removeItem(optionsList.getSelectedItem());
-                optionsList.insertItemAt(n, taskIndex);
-
-                TableModel.getModel().removeRow(optionsList.getSelectedIndex());
-                TableModel.getModel().addRow(taskIndex, temp.toStringArray());
-                TableModel.getModel().fireTableRowsUpdated(1, TableModel.getModel().getRowCount());
+                        temp.setName(n);
+                        temp.setNowResult(values[2]);
+                        temp.setEnergyConsumption(values[1]);
+                        temp.setPrognosisResult(values[3]);
+                        temp.setTimeConsumption(values[0]);
+                        Tasks.doSortUpByProductivity();
+                        int taskIndex = Tasks.getTaskIndex(n);
+                        TableModel.getModel().updateRow(optionsList.getSelectedItem().toString(),temp.toStringArray());
+                        optionsList.removeItem(optionsList.getSelectedItem());
+                        optionsList.insertItemAt(n, taskIndex);
+                        Tasks.doSortUpByProductivity();
+                        TableModel.getModel();
+                        TableModel.getModel().fireTableRowsUpdated(1, TableModel.getModel().getRowCount());
             }
         }
     }
@@ -165,11 +164,14 @@ public class Record extends JPanel {
             Task task = new Task(n, temp[0], temp[1], temp[2], temp[3]);
 
             if (Tasks.getTask(n) == null) {
-                Tasks.add(task);
+                {//adding element to TableModel & TasksList
+                    Tasks.add(task);
+                    TableModel.getModel().addRow(task.toStringArray());
+                }
                 Tasks.doSortUpByProductivity();
                 int taskIndex = Tasks.getTaskIndex(n);
 
-                TableModel.getModel().addRow(taskIndex, task.toStringArray());
+
                 optionsList.insertItemAt(n, taskIndex);
             } else JOptionPane.showMessageDialog(new JOptionPane(),
                     "Please, change name to another.",

@@ -3,8 +3,8 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.DocumentFilter;
 import javax.swing.text.PlainDocument;
 
-public class LocalDocument extends PlainDocument {
-    public LocalDocument(){
+public class DigitsSchema extends PlainDocument {
+    public DigitsSchema(){
         this.setDocumentFilter(new DocumentFilter() {
             @Override
             public void insertString(DocumentFilter.FilterBypass fb, int off, String str, AttributeSet attr)

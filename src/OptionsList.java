@@ -1,6 +1,6 @@
 import javax.swing.*;
 
-public class OptionsList<String>extends JComboBox {
+public class OptionsList extends JComboBox {
     TextField [] textFields; // TextField[]{name,energy,time,now,prognosis}
     TasksList tasks;
     Task emptyTask;
@@ -13,7 +13,7 @@ public class OptionsList<String>extends JComboBox {
         this.optionsNames=optionsNames;
     }
 
-    public void setChoseOptionText(Task task){
+    public void setChosenOptionText(Task task){
         textFields[0].setText(task.getName());
         textFields[1].setText(""+task.getEnergyConsumption());
         textFields[2].setText(""+task.getTimeConsumption());
@@ -24,7 +24,7 @@ public class OptionsList<String>extends JComboBox {
     @Override
     protected void selectedItemChanged() {
         super.selectedItemChanged();
-        setChoseOptionText(super.getSelectedItem().toString().equals("New task")?
+        setChosenOptionText(super.getSelectedItem().toString().equals("New task")?
                 emptyTask:
                 tasks.getTask(super.getSelectedItem().toString()));
     }

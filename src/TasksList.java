@@ -35,8 +35,13 @@ public class TasksList extends ArrayList<Task> {
 
     public void doSortUpByProductivity(){
         Collections.sort(this,Collections.reverseOrder(Comparator.comparingDouble(Task::getProductivity)));
+        if (!this.isEmpty() & !TableModel.getModel().isEmpty()){
+            for (int i = 0; i < size(); i++) {
+                String taskName = TableModel.getModel().getValueAt(i,0); // column = 0, as name of task
+                int position = getTaskIndex(taskName);
+                if (i!= position)TableModel.getModel().setTaskIndex(i,position);
+            }
 
-
-
+        }
     }
 }

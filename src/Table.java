@@ -6,8 +6,8 @@ import java.awt.*;
 public class Table extends JTable {
         Table (String[][] rowData,String[] names){
         super (rowData,names);
+            this.setModel(TableModel.getModel());
         this.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);;
-        this.setModel(TableModel.getModel());
         this.setDefaultEditor(Object.class, null); //Protection against table editing
     }
 

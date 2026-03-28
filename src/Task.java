@@ -38,7 +38,7 @@ public class Task {
     }
 
     public void setEnergyConsumption(int energyConsumption) {
-        this.energyConsumption = energyConsumption;
+        this.energyConsumption = (energyConsumption==0)? 1: energyConsumption;
         this.isTaskUpdated = true;
         /*
         outString[2] = ""+energyConsumption;
@@ -68,7 +68,7 @@ public class Task {
     }
 
     public void setTimeConsumption(int timeConsumption) {
-        this.timeConsumption = timeConsumption;
+        this.timeConsumption = (timeConsumption==0)?1:timeConsumption;
         this.isTaskUpdated = true;
         /*
         outString[1] = ""+timeConsumption;
@@ -93,8 +93,8 @@ public class Task {
     public Task (String name, int ECons, int TCons, int NRes, int PRes){
         this.prognosisResult = PRes;
         this.nowResult = NRes;
-        this.timeConsumption = TCons;
-        this.energyConsumption = ECons;
+        this.setTimeConsumption(TCons);
+        this.setEnergyConsumption(ECons);
         this.name = name;
         updateOutString();
     }
@@ -103,8 +103,8 @@ public class Task {
         this.name = name;
         this.prognosisResult = 1;
         this.nowResult = 1;
-        this.timeConsumption = 1;
-        this.energyConsumption = 1;
+        this.setTimeConsumption(1);
+        this.setEnergyConsumption(1);
         updateOutString();
     }
 
