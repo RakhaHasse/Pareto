@@ -243,6 +243,3 @@ This project is licensed under the MIT License.
 ## Credits
 
 README was prepared with the help of ChatGPT.
-
-### Disclaimer
-* README was prepared with the help of ChatGPT 5.4.
