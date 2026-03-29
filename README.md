@@ -72,6 +72,12 @@ Then open the project in your Java IDE and run the application.
 * Sort tasks by productivity
 * Compare tasks in a table view
 
+## Automatic field filling
+
+Selecting an existing task automatically fills the form with its saved values.
+
+This allows the user to quickly review or edit a task without entering all parameters again.
+
 ## How it works
 
 Each task is described by the following values:
@@ -83,6 +89,17 @@ Each task is described by the following values:
 * **Prognosis result**
 
 The app then calculates three derived values.
+
+## Input rules
+
+In Pareto, task costs are treated as **always positive**.
+
+Both **time consumption** and **energy consumption** must be greater than zero.  
+Negative values are not allowed, and the input fields accept numeric values only.
+
+This matches the logic of the app: any real task requires at least some amount of time or energy.
+
+
 
 ### Consumption
 
