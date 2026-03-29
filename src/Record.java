@@ -142,20 +142,16 @@ public class Record extends JPanel {
                         int[] values = readTaskValues();
 
                         Task temp = Tasks.getTask(Objects.requireNonNull(optionsList.getSelectedItem()).toString());
-
-
                         temp.setName(n);
                         temp.setNowResult(values[2]);
                         temp.setEnergyConsumption(values[1]);
                         temp.setPrognosisResult(values[3]);
                         temp.setTimeConsumption(values[0]);
-                        Tasks.doSortUpByProductivity();
                         int taskIndex = Tasks.getTaskIndex(n);
                         TableModel.getModel().updateRow(optionsList.getSelectedItem().toString(),temp.toStringArray());
                         optionsList.removeItem(optionsList.getSelectedItem());
                         optionsList.insertItemAt(n, taskIndex);
                         Tasks.doSortUpByProductivity();
-                        TableModel.getModel();
                         TableModel.getModel().fireTableRowsUpdated(1, TableModel.getModel().getRowCount());
             }
         }
@@ -194,7 +190,7 @@ public class Record extends JPanel {
                     "Duplicate names",
                     JOptionPane.WARNING_MESSAGE);
         }
-
+        optionsList.clearTextFields();
     }
 
 }

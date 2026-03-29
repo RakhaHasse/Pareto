@@ -74,7 +74,7 @@ public class TableModel extends AbstractTableModel {
         return data.get(row)[column];
     }
 
-    public boolean setTaskIndex(int oldIndex, int newIndex){
+    public boolean setTaskIndex( int oldIndex, int newIndex){
         boolean check= newIndex<data.size()& oldIndex< data.size();
         if(check) {
             String []candidate = data.get(oldIndex);
@@ -96,8 +96,8 @@ public class TableModel extends AbstractTableModel {
 
     public void addRow(String[] rowData) {
         data.add(rowData);
-        //int row = data.size() - 1;
-        //fireTableRowsInserted(row, row);
+        int row = data.size() - 1;
+        fireTableRowsInserted(row, row);
     }
 
     public void addRow (int index, String[] rowData){

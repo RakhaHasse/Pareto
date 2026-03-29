@@ -22,7 +22,7 @@ public class TextField extends JTextField {
             @Override
             public void focusGained(FocusEvent e) {
                 if (textField.getText().equals(TextField.this.placeholder)) {
-                    textField.readyToInput();
+                    textField.readyToInputAfterShownPlaceholder();
                 }
             }
 
@@ -47,9 +47,11 @@ public class TextField extends JTextField {
         this.addFocusListener(new FocusListener() {
             @Override
             public void focusGained(FocusEvent e) {
+
                 if (textField.getText().equals(TextField.this.placeholder)) {
-                    textField.readyToInput();
+                    textField.readyToInputAfterShownPlaceholder();
                 }
+                else textField.readyToInput();
             }
 
             @Override
@@ -66,12 +68,16 @@ public class TextField extends JTextField {
             super.setText(t);
     }
 
-    public void readyToInput(){
+    public void readyToInputAfterShownPlaceholder(){
         setText("");
         placeholderIsOn = false;
         if (!inputDocument.equals(placeholderDocument))
             setDocument(inputDocument);
         setForeground(Color.BLACK);
+    }
+
+    public void readyToInput(){
+        placeholderIsOn = false;
     }
 
     public  void demoPlaceholder (){

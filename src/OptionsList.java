@@ -28,5 +28,14 @@ public class OptionsList extends JComboBox {
         super.selectedItemChanged();
         if (!super.getSelectedItem().toString().equals(emptyTask.getName()))
             setChosenOptionText(tasks.getTask(super.getSelectedItem().toString()));
+        else clearTextFields();
+    }
+
+    void clearTextFields (){
+        for (int i = 0; i < textFields.length; i++) {
+            textFields[i].setText("");
+            textFields[i].demoPlaceholder();
+        }
+
     }
 }
