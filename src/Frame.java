@@ -1,8 +1,5 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.Objects;
 
 
 public class Frame extends JFrame {
@@ -20,7 +17,7 @@ public class Frame extends JFrame {
     public void Launch() {
         Tasks = new TasksList();
 
-        setTitle("Subjective Pareto");
+        setTitle("Subjective Pareto v1.6");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Font font = new Font("Verdana", Font.PLAIN, 10);
         final JTabbedPane tabbedPane = new JTabbedPane();

@@ -6,6 +6,9 @@ import java.util.Objects;
 
 public class Record extends JPanel {
     final String zeroOption = "New task";
+    final String digitsPlaceHolder = "Enter value";
+    final String namePlaceHolder = "Enter task name";
+    final int intParameterTextFields = 10;
     TextField  name;
     TasksList Tasks;
     DigitsTextField energy, time, now, prognosis;
@@ -19,7 +22,7 @@ public class Record extends JPanel {
     constraints.gridx =0;
     constraints.gridy =0;
         super.add(nameD,constraints);
-    name = new TextField("Enter task name", 10);
+    name = new TextField(namePlaceHolder, intParameterTextFields);
         this.setName(name.getText());
     constraints.gridx = 1;
         this.add(name,constraints);
@@ -29,7 +32,7 @@ public class Record extends JPanel {
     JLabel timeD = new JLabel("Time consumption:");
         this.add(timeD, constraints);
     constraints.gridx = 1;
-        this.time =new DigitsTextField();
+        this.time =new DigitsTextField(digitsPlaceHolder, intParameterTextFields);
         this.add(time, constraints);
 
     constraints.gridy = 2;
@@ -38,7 +41,7 @@ public class Record extends JPanel {
         this.add(energyD, constraints);
     constraints.gridx = 1;
 
-        this.energy = new DigitsTextField();
+        this.energy = new DigitsTextField(digitsPlaceHolder, intParameterTextFields);
         this.add(energy, constraints);
 
     constraints.gridy = 3;
@@ -47,7 +50,7 @@ public class Record extends JPanel {
         this.add(nowD, constraints);
     constraints.gridx = 1;
 
-        this.now = new DigitsTextField();;
+        this.now = new DigitsTextField(digitsPlaceHolder, intParameterTextFields);
         this.add(now, constraints);
 
     constraints.gridy = 4;
@@ -55,7 +58,7 @@ public class Record extends JPanel {
     JLabel prognosisD = new JLabel("Prognosis result:");
         this.add(prognosisD, constraints);
     constraints.gridx = 1;
-        this.prognosis = new DigitsTextField();
+        this.prognosis =new DigitsTextField(digitsPlaceHolder, intParameterTextFields);
         this.add(prognosis, constraints);
 
     constraints.gridy = 5;
@@ -160,6 +163,19 @@ public class Record extends JPanel {
     public void actionAddButton(ActionEvent e) {
         if (optionsList.getSelectedItem().equals(zeroOption)) {
             String n = name.getText();
+            if (n.isEmpty()) {
+                JOptionPane.showMessageDialog(new JOptionPane(),
+                        "Please, fill name.",
+                        "Empty task name",
+                        JOptionPane.WARNING_MESSAGE);
+                return;
+            } else if (n.equals(namePlaceHolder)) {
+                JOptionPane.showMessageDialog(new JOptionPane(),
+                        "Please, fill name.",
+                        "Incorrect input task name",
+                        JOptionPane.WARNING_MESSAGE);
+                return;
+            }
             int[] temp = readTaskValues();
             Task task = new Task(n, temp[0], temp[1], temp[2], temp[3]);
 

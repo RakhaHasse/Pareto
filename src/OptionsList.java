@@ -5,27 +5,28 @@ public class OptionsList extends JComboBox {
     TasksList tasks;
     Task emptyTask;
     String[] optionsNames;
-    public OptionsList (TasksList tasks, TextField[]textFields, String[]optionsNames){
+    public OptionsList (TasksList tasks, TextField[] textFields, String[] optionsNames){
         super(optionsNames);
         this.textFields = textFields;
         this.tasks=tasks;
-        this.emptyTask = new Task("New task");
+        this.emptyTask = new Task(optionsNames[0]);
         this.optionsNames=optionsNames;
     }
 
     public void setChosenOptionText(Task task){
-        textFields[0].setText(task.getName());
-        textFields[1].setText(""+task.getEnergyConsumption());
-        textFields[2].setText(""+task.getTimeConsumption());
-        textFields[3].setText(""+task.getNowResult());
-        textFields[4].setText(""+task.getPrognosisResult());
+        if (!task.getName().equals(emptyTask.getName())) {
+            textFields[0].setText(task.getName());
+            textFields[1].setText("" + task.getEnergyConsumption());
+            textFields[2].setText("" + task.getTimeConsumption());
+            textFields[3].setText("" + task.getNowResult());
+            textFields[4].setText("" + task.getPrognosisResult());
+        }
     }
 
     @Override
     protected void selectedItemChanged() {
         super.selectedItemChanged();
-        setChosenOptionText(super.getSelectedItem().toString().equals("New task")?
-                emptyTask:
-                tasks.getTask(super.getSelectedItem().toString()));
+        if (!super.getSelectedItem().toString().equals(emptyTask.getName()))
+            setChosenOptionText(tasks.getTask(super.getSelectedItem().toString()));
     }
 }
