@@ -46,7 +46,7 @@ Then open the project in your Java IDE and run the application.
 
 ### Main window
 
-![Pareto window for edit task](Images/Pareto-v1.7-Records.png))
+![Pareto window for edit task](Images/Pareto-v1.7-Records.png)
 
 ### Example with tasks
 
