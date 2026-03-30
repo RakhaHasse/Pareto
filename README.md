@@ -83,7 +83,7 @@ This allows the user to quickly review or edit a task without entering all param
 
 Pareto can save the task list between application sessions.
 
-Tasks are stored in a local JSON file, so after restarting the application the saved records can be loaded again.
+Tasks are stored in a local JSON file, so after restarting the application the saved records are loaded again automatically.
 
 This makes the app more useful for long-term personal tracking, not only for one-time comparisons inside a single session.
 
@@ -141,14 +141,14 @@ This allows the user to compare tasks not only by effort, but also by their perc
 
 Let us say you enter the following task:
 
-* **Task name:** Reading
-* **Time consumption:** 4
-* **Energy consumption:** 2
-* **Now result:** 3
-* **Prognosis result:** 5
+- **Task name:** Reading
+- **Task description:** Reading a useful book or article
+- **Time consumption:** 4
+- **Energy consumption:** 2
+- **Now result:** 3
+- **Prognosis result:** 5
 
 The app will calculate:
-
 ```text
 Consumption = (4 + 2) / 2 = 3
 Result = (3 + 5) / 2 = 4
@@ -177,9 +177,9 @@ README.md
 LICENSE
 ```
 
-```md
-## Main classes
 
+## Main classes
+```md
 ### `Task`
 Represents a single task and stores its parameters, including description.  
 Also calculates consumption, result, and productivity.
@@ -218,7 +218,6 @@ Provides the table model for displaying task data in the interface.
 Contains the main application window and assembles the interface.
 ```
 
-## How to use
 ## How to use
 
 1. Launch the application
