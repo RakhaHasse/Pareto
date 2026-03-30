@@ -46,13 +46,11 @@ Then open the project in your Java IDE and run the application.
 
 ### Main window
 
-![Pareto window for edit task](Images/one-task-detail-screen.png)
-![Pareto window for view tasks](Images/tasks-table-screen.png)
+![Pareto window for edit task](Images/Pareto-v1.7-Records.png))
 
 ### Example with tasks
 
-![Pareto task example](Images/test-task-filled-screen.png)
-![Pareto tasks table example](Images/test-tasks-table-screen.png)
+![Pareto tasks table example](Images/Pareto-v1.7-Pareto-Table.png)
 
 ## Features
 
