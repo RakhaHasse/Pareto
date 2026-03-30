@@ -20,6 +20,8 @@ The project has grown from an early working prototype into a more structured Jav
 - task sorting
 - editable task records
 - automatic field filling when an existing task is selected
+- task descriptions
+- saving and loading tasks between application sessions using a JSON file
 - a more modular Swing-based structure
 
 ## Quick Start
@@ -54,23 +56,24 @@ Then open the project in your Java IDE and run the application.
 
 ## Features
 
-* Add tasks with custom parameters
-* Edit existing tasks
-* Delete tasks
-* Select an existing task and automatically fill form fields with its saved values
-* Estimate:
-
-  * time consumption
-  * energy consumption
-  * current result
-  * expected future result
-* Automatically calculate:
-
-  * **Consumption**
-  * **Result**
-  * **Productivity**
-* Sort tasks by productivity
-* Compare tasks in a table view
+- Add tasks with custom parameters
+- Edit existing tasks
+- Delete tasks
+- Select an existing task and automatically fill form fields with its saved values
+- Add a description to a task
+- Save tasks between application sessions
+- Load saved tasks automatically on application start
+- Estimate:
+  - time consumption
+  - energy consumption
+  - current result
+  - expected future result
+- Automatically calculate:
+  - **Consumption**
+  - **Result**
+  - **Productivity**
+- Sort tasks by productivity
+- Compare tasks in a table view
 
 ## Automatic field filling
 
@@ -78,15 +81,24 @@ Selecting an existing task automatically fills the form with its saved values.
 
 This allows the user to quickly review or edit a task without entering all parameters again.
 
+## Persistent storage
+
+Pareto can save the task list between application sessions.
+
+Tasks are stored in a local JSON file, so after restarting the application the saved records can be loaded again.
+
+This makes the app more useful for long-term personal tracking, not only for one-time comparisons inside a single session.
+
 ## How it works
 
 Each task is described by the following values:
 
-* **Task name**
-* **Time consumption**
-* **Energy consumption**
-* **Now result**
-* **Prognosis result**
+- **Task name**
+- **Task description**
+- **Time consumption**
+- **Energy consumption**
+- **Now result**
+- **Prognosis result**
 
 The app then calculates three derived values.
 
@@ -149,6 +161,7 @@ Productivity = 4 / 3 = 1.33
 
 ```text
 src/
+ ├── Description.java
  ├── DigitsSchema.java
  ├── DigitsTextField.java
  ├── Frame.java
@@ -158,64 +171,70 @@ src/
  ├── TableModel.java
  ├── Task.java
  ├── TasksList.java
+ ├── TasksRepository.java
+ ├── TextField.java
 Images/
 Pareto.jar
 README.md
 LICENSE
 ```
 
+```md
 ## Main classes
 
 ### `Task`
-
-Represents a single task and stores its parameters.
+Represents a single task and stores its parameters, including description.  
 Also calculates consumption, result, and productivity.
 
 ### `TasksList`
-
 Stores and manages the collection of tasks, including sorting and search operations.
 
 ### `Record`
-
 Represents the record management panel for creating, editing, and deleting tasks.
 
 ### `OptionsList`
-
 Handles task selection and automatic filling of form fields.
 
-### `DigitsTextField`
+### `TextField`
+Provides text input with placeholder behavior.
 
+### `DigitsTextField`
 Provides safer numeric text input for task parameters.
 
 ### `DigitsSchema`
-
 Restricts text input to numeric values.
 
-### `Table`
+### `Description`
+Provides description input with placeholder behavior.
 
+### `TasksRepository`
+Handles saving and loading tasks between sessions using a JSON file.
+
+### `Table`
 Displays task records in a table view.
 
 ### `TableModel`
-
 Provides the table model for displaying task data in the interface.
 
 ### `Frame`
-
 Contains the main application window and assembles the interface.
+```
 
+## How to use
 ## How to use
 
 1. Launch the application
 2. Enter a new task or select an existing one
 3. Fill in or edit:
-
-   * time consumption
-   * energy consumption
-   * now result
-   * prognosis result
+   - task name
+   - task description
+   - time consumption
+   - energy consumption
+   - now result
+   - prognosis result
 4. Save the task
 5. View the sorted task list in the table
-6. Compare productivity values
+6. Close and reopen the app to continue working with saved tasks
 
 ## Purpose
 
@@ -235,23 +254,25 @@ It can be useful for:
 
 The project has evolved through several versions:
 
-* **v1.0** — initial working release
-* **v1.1** — improved stability for empty text fields
-* **v1.2** — small structural and safety fixes
-* **v1.3** — cleaner project structure and updated setup
-* **v1.4** — automatic filling of task values after selection
-* **v1.5** — improved sorting behavior and cleaner naming
+- **v1.0** — initial working release
+- **v1.1** — improved stability for empty text fields
+- **v1.2** — small structural and safety fixes
+- **v1.3** — cleaner project structure and updated setup
+- **v1.4** — automatic filling of task values after selection
+- **v1.5** — improved sorting behavior and cleaner naming
+- **v1.6** — improved placeholder behavior in text fields
+- **v1.7** — task descriptions and JSON-based task persistence between sessions
 
 ## Future improvements
 
 Possible next steps for the project:
 
-* save/load tasks from file
-* export results
-* more flexible sorting and filtering
-* improved UI design
-* stronger separation between UI and business logic
-* additional validation and status messages
+- export results
+- more flexible sorting and filtering
+- improved UI design
+- stronger separation between UI and business logic
+- additional validation and status messages
+- configurable storage location
 
 ## License
 
