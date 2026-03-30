@@ -1,16 +1,20 @@
 import javax.swing.*;
+import java.awt.*;
 
 public class OptionsList extends JComboBox {
     TextField [] textFields; // TextField[]{name,energy,time,now,prognosis}
     TasksList tasks;
+    Description description;
     Task emptyTask;
     String[] optionsNames;
-    public OptionsList (TasksList tasks, TextField[] textFields, String[] optionsNames){
+    public OptionsList (TasksList tasks, TextField[] textFields,
+                        String[] optionsNames, String addTaskName, Description description){
         super(optionsNames);
         this.textFields = textFields;
         this.tasks=tasks;
-        this.emptyTask = new Task(optionsNames[0]);
+        this.emptyTask = new Task(addTaskName);
         this.optionsNames=optionsNames;
+        this.description = description;
     }
 
     public void setChosenOptionText(Task task){
@@ -20,6 +24,7 @@ public class OptionsList extends JComboBox {
             textFields[2].setText("" + task.getTimeConsumption());
             textFields[3].setText("" + task.getNowResult());
             textFields[4].setText("" + task.getPrognosisResult());
+            description.setText(task.getDescription());
         }
     }
 
@@ -28,14 +33,13 @@ public class OptionsList extends JComboBox {
         super.selectedItemChanged();
         if (!super.getSelectedItem().toString().equals(emptyTask.getName()))
             setChosenOptionText(tasks.getTask(super.getSelectedItem().toString()));
-        else clearTextFields();
+        else resetAndPlaceholder();
     }
 
-    void clearTextFields (){
+    void resetAndPlaceholder(){
         for (int i = 0; i < textFields.length; i++) {
-            textFields[i].setText("");
-            textFields[i].demoPlaceholder();
+            textFields[i].resetAndPlaceholder();
+            description.resetAndPlaceholder();
         }
-
     }
 }

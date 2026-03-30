@@ -5,159 +5,187 @@ import java.awt.event.ActionListener;
 import java.util.Objects;
 
 public class Record extends JPanel {
-    final String zeroOption = "New task";
-    final String digitsPlaceHolder = "Enter value";
-    final String namePlaceHolder = "Enter task name";
-    final int intParameterTextFields = 10;
+    final String addTaskOptionName = "New task",
+            descriptionPlaceholder ="Enter task description here",
+            digitsPlaceHolder = "Enter value",
+            namePlaceHolder = "Enter task name";
+    final int intParameterTextFields = 10,
+            intConstraintsGridXLabel = 9,
+            intContstraintsGridXTextField = 10;
     TextField  name;
-    TasksList Tasks;
+    Description decription;
+    TasksList tasksList;
     DigitsTextField energy, time, now, prognosis;
     OptionsList optionsList;
-    public Record(TasksList tasks){
-    super(new GridBagLayout());
-    Tasks = tasks;
-    GridBagConstraints constraints = new GridBagConstraints();
+    TasksRepository repository;
+    public Record(TasksList tasksList, TasksRepository tasksRepository){
+        super(new GridBagLayout());
+        repository=tasksRepository;
+        GridBagConstraints gridBagConstraints = new GridBagConstraints();
 
+        this.tasksList = tasksList;
+
+    String[] optionsToChoose = new String [this.tasksList.size()+1];
+        gridBagConstraints.gridheight=1;
+        gridBagConstraints.gridwidth =1;
+        gridBagConstraints.gridy = -8;
+        gridBagConstraints.gridx = -1;
+        JLabel descriptionD = new JLabel("Task description");
+        this.add(descriptionD, gridBagConstraints);
+        gridBagConstraints.gridy = -3;
+        gridBagConstraints.gridx = -3;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.gridheight =12;
+        this.decription = new Description(descriptionPlaceholder);
+        this.add(decription, gridBagConstraints);
+        gridBagConstraints.gridheight=1;
+gridBagConstraints.gridwidth =1;
     JLabel nameD = new JLabel( "Task name");
-    constraints.gridx =0;
-    constraints.gridy =0;
-        super.add(nameD,constraints);
+    gridBagConstraints.gridy = 0;
+    gridBagConstraints.gridx = intConstraintsGridXLabel;
+        super.add(nameD,gridBagConstraints);
     name = new TextField(namePlaceHolder, intParameterTextFields);
         this.setName(name.getText());
-    constraints.gridx = 1;
-        this.add(name,constraints);
+    gridBagConstraints.gridx = intContstraintsGridXTextField;
+        this.add(name,gridBagConstraints);
 
-    constraints.gridx = 0;
-    constraints.gridy = 1;
+    gridBagConstraints.gridx = intConstraintsGridXLabel;
+    gridBagConstraints.gridy = 1;
     JLabel timeD = new JLabel("Time consumption:");
-        this.add(timeD, constraints);
-    constraints.gridx = 1;
+        this.add(timeD, gridBagConstraints);
+    gridBagConstraints.gridx = intContstraintsGridXTextField;
         this.time =new DigitsTextField(digitsPlaceHolder, intParameterTextFields);
-        this.add(time, constraints);
+        this.add(time, gridBagConstraints);
 
-    constraints.gridy = 2;
-    constraints.gridx = 0;
+    gridBagConstraints.gridy = 2;
+    gridBagConstraints.gridx = intConstraintsGridXLabel;
     JLabel energyD = new JLabel("Energy consumption");
-        this.add(energyD, constraints);
-    constraints.gridx = 1;
+        this.add(energyD, gridBagConstraints);
+    gridBagConstraints.gridx = intContstraintsGridXTextField;
 
         this.energy = new DigitsTextField(digitsPlaceHolder, intParameterTextFields);
-        this.add(energy, constraints);
+        this.add(energy, gridBagConstraints);
 
-    constraints.gridy = 3;
-    constraints.gridx = 0;
+    gridBagConstraints.gridy = 3;
+    gridBagConstraints.gridx = intConstraintsGridXLabel;
     JLabel nowD = new JLabel("Result now:");
-        this.add(nowD, constraints);
-    constraints.gridx = 1;
-
-        this.now = new DigitsTextField(digitsPlaceHolder, intParameterTextFields);
-        this.add(now, constraints);
-
-    constraints.gridy = 4;
-    constraints.gridx = 0;
+    this.add(nowD, gridBagConstraints);
+    gridBagConstraints.gridx = intContstraintsGridXTextField;
+    this.now = new DigitsTextField(digitsPlaceHolder, intParameterTextFields);
+    this.add(now, gridBagConstraints);
+    gridBagConstraints.gridy = 4;
+    gridBagConstraints.gridx = intConstraintsGridXLabel;
     JLabel prognosisD = new JLabel("Prognosis result:");
-        this.add(prognosisD, constraints);
-    constraints.gridx = 1;
-        this.prognosis =new DigitsTextField(digitsPlaceHolder, intParameterTextFields);
-        this.add(prognosis, constraints);
+    this.add(prognosisD, gridBagConstraints);
+    gridBagConstraints.gridx = intContstraintsGridXTextField;
+    this.prognosis =new DigitsTextField(digitsPlaceHolder, intParameterTextFields);
+    this.add(prognosis, gridBagConstraints);
 
-    constraints.gridy = 5;
-    constraints.gridx = 0;
-    constraints.gridwidth =2;
-    String[] optionsToChoose = {zeroOption};
-    OptionsList list = new OptionsList(Tasks, new TextField[]{name,energy,time,now,prognosis},optionsToChoose);
-                list.setBounds(80, 50, 140, 20);
-                this.add(list, constraints);
-                optionsList=list;
+    if (!this.tasksList.isEmpty())
+            for (int i = 0; i < optionsToChoose.length-1; i++) {
+                optionsToChoose[i]=tasksList.get(i).getName();
+            }
+        optionsToChoose[optionsToChoose.length-1] = addTaskOptionName;
+        OptionsList list = new OptionsList(this.tasksList,
+                new TextField[]{name,energy,time,now,prognosis},optionsToChoose,addTaskOptionName, this.decription);
+    gridBagConstraints.gridy = 5;
+    gridBagConstraints.gridx = intConstraintsGridXLabel;
+    gridBagConstraints.gridwidth =2;
+    list.setBounds(80, 50, 140, 20);
+    this.add(list, gridBagConstraints);
+    optionsList=list;
 
-                JButton addTask = new JButton("Add task");
-                constraints.gridy = 6;
-                constraints.gridx=0;
-                constraints.gridwidth=1;
-                this.add(addTask,constraints);
-                addTask.addActionListener(new ActionListener() {
+    JButton addTask = new JButton("Add task");
+    gridBagConstraints.gridy = 6;
+    gridBagConstraints.gridx=intConstraintsGridXLabel;
+    gridBagConstraints.gridwidth=1;
+    this.add(addTask,gridBagConstraints);
+    addTask.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         actionAddButton(e);
                     }
                 });
 
-                JButton changeTask = new JButton("Change task");
-                constraints.gridy = 6;
-                constraints.gridx=1;
-                constraints.gridwidth=1;
-                this.add(changeTask,constraints);
-                changeTask.addActionListener(new ActionListener() {
+    JButton changeTask = new JButton("Change task");
+    gridBagConstraints.gridy = 6;
+    gridBagConstraints.gridx=intContstraintsGridXTextField;
+    gridBagConstraints.gridwidth=1;
+    this.add(changeTask,gridBagConstraints);
+    changeTask.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         actionChangeButton(e);
                     }
                 });
 
-                JButton deleteTask = new JButton("Delete task");
-                constraints.gridx = 2;
-                this.add(deleteTask,constraints);
-                deleteTask.addActionListener(new ActionListener() {
+    JButton deleteTask = new JButton("Delete task");
+    gridBagConstraints.gridx = 11;
+    this.add(deleteTask,gridBagConstraints);
+    deleteTask.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         actionDeleteTask(e);
                     }
 
-                });
-            }
-            private int[] readTaskValues() {
-                return new int[]{
-                        Integer.parseInt(time.getSafeTextForParseInt()),
-                        Integer.parseInt(energy.getSafeTextForParseInt()),
-                        Integer.parseInt(now.getSafeTextForParseInt()),
-                        Integer.parseInt(prognosis.getSafeTextForParseInt())
-                };
-            }
-            public void actionDeleteTask(ActionEvent e) {
+    });
+    }
+    private int[] readTaskValues() {
+        return new int[]{
+                Integer.parseInt(time.getSafeTextForParseInt()),
+                Integer.parseInt(energy.getSafeTextForParseInt()),
+                Integer.parseInt(now.getSafeTextForParseInt()),
+                Integer.parseInt(prognosis.getSafeTextForParseInt())
+        };
+    }
+    public void actionDeleteTask(ActionEvent e) {
 
-                if (!optionsList.getSelectedItem().toString().equals(zeroOption)) {
-                    Tasks.remove(Tasks.getTask(optionsList.getSelectedItem().toString()));
-                    TableModel.getModel().removeRow(optionsList.getSelectedIndex());
-                    optionsList.removeItem(optionsList.getSelectedItem());
+        if (!optionsList.getSelectedItem().toString().equals(addTaskOptionName)) {
+            tasksList.remove(tasksList.getTask(optionsList.getSelectedItem().toString()));
+            TableModel.getModel().removeRow(optionsList.getSelectedIndex());
+            optionsList.removeItem(optionsList.getSelectedItem());
+        }
+        repository.saveTasks(tasksList);
+    }
+
+    public void actionChangeButton(ActionEvent e) {
+        if (!optionsList.getSelectedItem().equals(addTaskOptionName)) {
+            String n = name.getText();
+            boolean isDupliate = false;
+            for (int i = 0; i < optionsList.getItemCount() - 1; i++) {
+                if (optionsList.getSelectedIndex() == i) i++;
+                if (optionsList.getItemAt(i).toString().equals(n)) {
+                    JOptionPane.showMessageDialog(new JOptionPane(),
+                            "Please, change name to another.",
+                            "Duplicate names",
+                            JOptionPane.WARNING_MESSAGE);
+                    isDupliate = true;
+                    break;
                 }
             }
+            if (!isDupliate) {
+                int[] values = readTaskValues();
+                Task temp = tasksList.getTask(Objects.requireNonNull(optionsList.getSelectedItem()).toString());
+                temp.setName(n);
+                temp.setNowResult(values[2]);
+                temp.setEnergyConsumption(values[1]);
+                temp.setPrognosisResult(values[3]);
+                temp.setTimeConsumption(values[0]);
+                temp.setDescription(decription.getText());
 
-            public void actionChangeButton(ActionEvent e) {
-                if (!optionsList.getSelectedItem().equals(zeroOption)) {
+                TableModel.getModel().updateRow(optionsList.getSelectedItem().toString(),temp.toStringArray());
+                tasksList.doSortUpByProductivity();
+                int taskIndex = tasksList.getTaskIndex(n);
+                optionsList.removeItem(optionsList.getSelectedItem());
+                optionsList.insertItemAt(n, taskIndex);
 
-                    String n = name.getText();
-                    boolean isDupliate = false;
-                    for (int i = 0; i < optionsList.getItemCount() - 1; i++) {
-                        if (optionsList.getSelectedIndex() == i) i++;
-                        if (optionsList.getItemAt(i).toString().equals(n)) {
-                            JOptionPane.showMessageDialog(new JOptionPane(),
-                                    "Please, change name to another.",
-                                    "Duplicate names",
-                                    JOptionPane.WARNING_MESSAGE);
-                            isDupliate = true;
-                            break;
-                        }
-                    }
-                    if (!isDupliate) {
-                        int[] values = readTaskValues();
-
-                        Task temp = Tasks.getTask(Objects.requireNonNull(optionsList.getSelectedItem()).toString());
-                        temp.setName(n);
-                        temp.setNowResult(values[2]);
-                        temp.setEnergyConsumption(values[1]);
-                        temp.setPrognosisResult(values[3]);
-                        temp.setTimeConsumption(values[0]);
-                        int taskIndex = Tasks.getTaskIndex(n);
-                        TableModel.getModel().updateRow(optionsList.getSelectedItem().toString(),temp.toStringArray());
-                        optionsList.removeItem(optionsList.getSelectedItem());
-                        optionsList.insertItemAt(n, taskIndex);
-                        Tasks.doSortUpByProductivity();
-                        TableModel.getModel().fireTableRowsUpdated(1, TableModel.getModel().getRowCount());
+                TableModel.getModel().fireTableRowsUpdated(1, TableModel.getModel().getRowCount());
             }
         }
+        repository.saveTasks(tasksList);
     }
     public void actionAddButton(ActionEvent e) {
-        if (optionsList.getSelectedItem().equals(zeroOption)) {
+        if (optionsList.getSelectedItem().equals(addTaskOptionName)) {
             String n = name.getText();
             if (n.isEmpty()) {
                 JOptionPane.showMessageDialog(new JOptionPane(),
@@ -173,15 +201,15 @@ public class Record extends JPanel {
                 return;
             }
             int[] temp = readTaskValues();
-            Task task = new Task(n, temp[0], temp[1], temp[2], temp[3]);
+            Task task = new Task(n, temp[0], temp[1], temp[2], temp[3],decription.getText());
 
-            if (Tasks.getTask(n) == null) {
+            if (tasksList.getTask(n) == null) {
                 {//adding element to TableModel & TasksList
-                    Tasks.add(task);
+                    tasksList.add(task);
                     TableModel.getModel().addRow(task.toStringArray());
                 }
-                Tasks.doSortUpByProductivity();
-                int taskIndex = Tasks.getTaskIndex(n);
+                tasksList.doSortUpByProductivity();
+                int taskIndex = tasksList.getTaskIndex(n);
 
 
                 optionsList.insertItemAt(n, taskIndex);
@@ -190,7 +218,12 @@ public class Record extends JPanel {
                     "Duplicate names",
                     JOptionPane.WARNING_MESSAGE);
         }
-        optionsList.clearTextFields();
+        {//final method operations
+            tasksList.doSortUpByProductivity();
+            repository.saveTasks(tasksList);
+            optionsList.resetAndPlaceholder();
+
+        }
     }
 
 }

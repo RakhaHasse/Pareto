@@ -1,9 +1,11 @@
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties ({"result","consumption","productivity"})
 public class Task {
     static final int parametersCount= 8;
     private int energyConsumption, timeConsumption, nowResult, prognosisResult;
-    private String name;
+    private String name, description;
     private String [] outString;
-    private static Double specialRuleForZeroConsumption;
     private boolean isTaskUpdated;
     public double getConsumption(){
         return Math.round((energyConsumption+timeConsumption)/2.0*1000.0)/1000.0;
@@ -12,9 +14,15 @@ public class Task {
         return Math.round((nowResult+prognosisResult)/2.0*1000)/1000.0;
     }
     public double getProductivity(){
-        return (this.getConsumption()!=0) ?
-                Math.round(this.getResult()/this.getConsumption()*1000.0)/1000.0 :
-                (this.getResult() * specialRuleForZeroConsumption); //Special fallback for zero consumption to avoid division by zero
+        return Math.round(this.getResult()/this.getConsumption()*1000.0)/1000.0 ;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getDescription() {
+        return description;
     }
 
     public int getEnergyConsumption() {
@@ -31,10 +39,6 @@ public class Task {
 
     public int getTimeConsumption() {
         return timeConsumption;
-    }
-
-    public static void setSpecialRuleForZeroConsumption(double setUpLink) {
-        specialRuleForZeroConsumption = setUpLink;
     }
 
     public void setEnergyConsumption(int energyConsumption) {
@@ -90,12 +94,13 @@ public class Task {
         this.name="New task";
         updateOutString();
         }
-    public Task (String name, int ECons, int TCons, int NRes, int PRes){
+    public Task (String name, int ECons, int TCons, int NRes, int PRes, String description){
         this.prognosisResult = PRes;
         this.nowResult = NRes;
         this.setTimeConsumption(TCons);
         this.setEnergyConsumption(ECons);
         this.name = name;
+        this.description = description;
         updateOutString();
     }
 

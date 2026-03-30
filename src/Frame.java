@@ -5,8 +5,8 @@ import java.awt.*;
 public class Frame extends JFrame {
 
     Table table;
-
-    TasksList Tasks;
+    TasksRepository repository;
+    TasksList tasksList;
 
     public static void main(String[] args) {
         Frame win = new Frame();
@@ -14,20 +14,24 @@ public class Frame extends JFrame {
 
     }
 
-    public void Launch() {
-        Tasks = new TasksList();
 
-        setTitle("Subjective Pareto v1.6");
+
+    public void Launch() {
+        repository = new TasksRepository();
+        tasksList = repository.loadTasks();
+
+        setTitle("Subjective Pareto v1.7");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Font font = new Font("Verdana", Font.PLAIN, 10);
         final JTabbedPane tabbedPane = new JTabbedPane();
         tabbedPane.setFont(font);
-        tabbedPane.add("Records", new Record(Tasks));
 
+        tabbedPane.add("Records", new Record(tasksList, repository));
+        tabbedPane.add("Pareto Table", this.createTable());
         JPanel content = new JPanel();
         content.setLayout(new BorderLayout());
 
-        tabbedPane.add("Pareto Table", this.createTable());
+
 
         content.add(tabbedPane, BorderLayout.CENTER);
         getContentPane().add(content);

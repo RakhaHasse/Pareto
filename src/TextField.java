@@ -53,13 +53,13 @@ public class TextField extends JTextField {
                 }
                 else textField.readyToInput();
             }
-
-            @Override
-            public void focusLost(FocusEvent e) {
-                if (textField.getText().isEmpty()) {
-                    textField.demoPlaceholder();
+                @Override
+                public void focusLost (FocusEvent e){
+                    if (textField.getText().isEmpty()) {
+                        textField.demoPlaceholder();
+                    }
                 }
-            }
+
         });
     }
 
@@ -87,4 +87,15 @@ public class TextField extends JTextField {
         setText(TextField.this.placeholder);
         setForeground(Color.GRAY);
     }
+
+    public void resetAndPlaceholder (){
+        setText("");
+        placeholderIsOn = true;
+        if (!inputDocument.equals(placeholderDocument))
+            setDocument(placeholderDocument);
+        setText(TextField.this.placeholder);
+        setForeground(Color.GRAY);
+    }
 }
+
+

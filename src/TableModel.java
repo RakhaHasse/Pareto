@@ -1,8 +1,5 @@
 import javax.swing.table.AbstractTableModel;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-
 
 public class TableModel extends AbstractTableModel {
     private static TableModel singletone;
@@ -16,22 +13,9 @@ public class TableModel extends AbstractTableModel {
         this.safetyTextFieldValue = safetyTextFieldValue;
     }
 
-    private Double specialTaskRuleForZeroConsumption = 4.0;
-
-    public Double getSpecialTaskRuleForZeroConsumption() {
-        return specialTaskRuleForZeroConsumption;
-    }
-
-    public void setSpecialTaskRuleForZeroConsumption(Double specialTaskRuleForZeroConsumption) {
-        this.specialTaskRuleForZeroConsumption = specialTaskRuleForZeroConsumption;
-    }
-
-
-
     public static TableModel getModel(){
         if (singletone == null) {
             singletone= new TableModel();
-            Task.setSpecialRuleForZeroConsumption(singletone.specialTaskRuleForZeroConsumption);
             DigitsTextField.setSafetyValue(singletone.safetyTextFieldValue);
         }
         return singletone;
