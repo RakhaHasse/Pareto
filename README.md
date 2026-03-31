@@ -271,6 +271,12 @@ Possible next steps for the project:
 - additional validation and status messages
 - configurable storage location
 
+## Feedback and future discussion
+
+If this project feels interesting or useful to you, you can leave a reaction on the repository or on related project materials.
+
+If there is enough visible interest, I may open a dedicated discussion space for Pareto in the future.
+
 ## License
 
 This project is licensed under the MIT License.
